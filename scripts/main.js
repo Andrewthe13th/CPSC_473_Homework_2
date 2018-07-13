@@ -9,6 +9,15 @@ var ESC_KEY = 27;
 var thumbnailIndex = 0;
 var thumbnailArray;
 
+function setThumbnailIndex(thumbnail)
+{
+  for (var i = 0; i < thumbnailArray.length; i++) {
+    if (thumbnailArray[i].getAttribute('href') === thumbnail.getAttribute('href')) {
+      thumbnailIndex = i;
+    }
+  }
+}
+
 function getSliderArray() {
   'use strict';
   var sliders = document.querySelectorAll(DETAIL_FRAME_SLIDER);
@@ -61,12 +70,14 @@ function showDetails() {
 
 function addKeyPressHandler() {
   'use strict';
-  document.body.addEventListener('keyup', function (event) {
-    event.preventDefault();
-    if (event.keyCode === ESC_KEY) {
-      hideDetails();
-    }
-  });
+  window.onload = function() {
+    document.body.addEventListener('keyup', function (event) {
+      event.preventDefault();
+      if (event.keyCode === ESC_KEY) {
+        hideDetails();
+      }
+    });
+  }
 }
 
 function setDetails (imageURL, titleText) {
@@ -98,6 +109,7 @@ function addThumbClickHandler(thumb) {
   thumb.addEventListener('click', function (event) {
     event.preventDefault();
     setDetailsFromThumb(thumb);
+    setThumbnailIndex(thumb);
     showDetails();
   });
 }
